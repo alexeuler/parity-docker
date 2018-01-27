@@ -1,0 +1,38 @@
+version: '3'
+services:
+  parity:
+    image: parity/parity:stable-release
+    container_name: parity
+    working_dir: /parity/
+    volumes:
+      - parity-data:/root/.local/share/io.parity.ethereum/
+      # This is to sync timezone. Get this file from /etc/localtime on host
+      - ./localtime:/etc/localtime
+    command: ui --ws-interface all --ui-interface all
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "8080:8080"
+      - "8180:8180"
+      - "30303:30303"
+      - "30303:30303/udp"
+
+  kovan:
+    image: parity/parity:stable-release
+    container_name: kovan
+    working_dir: /parity/
+    volumes:
+      - parity-data:/root/.local/share/io.parity.ethereum/
+      - ./localtime:/etc/localtime
+    command: ui --chain kovan --no-warp --ws-interface all --ui-interface all
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "8080:8080"
+      - "8180:8180"
+      - "30303:30303"
+      - "30303:30303/udp"
+
+  
+volumes:
+  parity-data:
